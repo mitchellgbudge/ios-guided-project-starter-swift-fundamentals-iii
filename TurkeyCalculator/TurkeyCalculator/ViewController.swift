@@ -19,12 +19,39 @@ class ViewController: UIViewController {
     // Actions
     
     @IBAction func calculateButtonPressed(_ sender: UIButton) {
+        guard let turkeyWeightString = turkeyWeightTextField.text else { return }
+        guard let turkeyWeight = Double(turkeyWeightString) else {
+            print("Invalid weight, not a number")
+            return
+        }
         
+        var durationInMinutes: Double
+        
+        if metricButton.isSelected {
+            durationInMinutes = cookTimeInKilograms(turkeyWeight)
+        } else {
+            durationInMinutes = cookTimeInPounds(turkeyWeight)
+        }
     }
     
     @IBAction func metricButtonPressed(_ sender: UIButton) {
-        
+        sender.isSelected.toggle()
     }
     
     // Helper functions
+    
+    func cookTimeInPounds(_ weight: Double) -> Double {
+        let durationInMinutes = weight * 15.0
+        return durationInMinutes
+    }
+    
+    func cookTimeInKilograms(_ weight: Double) -> Double {
+        var durationInMinutes: Double
+        if weight > 4.0 {
+            durationInMinutes = 20.0 * weight + 90
+        } else {
+            durationInMinutes = 20.0 * weight + 70
+        }
+        return durationInMinutes
+    }
 }
